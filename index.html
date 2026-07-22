@@ -33,15 +33,18 @@
             pointer-events: none;
         }
 
-        /* Animação dos Gatinhos de Fundo */
-        .cat-bg {
+        /* Imagens de Gatinhos de Fundo */
+        .cat-img-bg {
             position: absolute;
-            font-size: 28px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             animation: floatCat 8s infinite linear;
             z-index: 2;
-            user-select: none;
             pointer-events: none;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
         }
 
         @keyframes float {
@@ -84,10 +87,12 @@
             position: relative;
         }
 
-        .cat-header {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            display: block;
+        .cat-gif {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
         }
 
         h1 {
@@ -160,7 +165,7 @@
 
     <!-- Cartão com a Pergunta -->
     <div class="card" id="card-pergunta">
-        <span class="cat-header">🐱💖</span>
+        <img class="cat-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdW41ZnJnbmlrcmxzcThveXkzaGgxcXZsdG1rdms3ZG44NzdxMnZkYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Cmr1OMJ2FN0B2/giphy.gif" alt="Gatinho Fofo">
         <h1>Para Ana Cecil 💕</h1>
         <p>Vamos voltar?</p>
         <div class="btn-group">
@@ -171,14 +176,12 @@
 
     <!-- Cartão de Sucesso ao clicar em Sim -->
     <div class="card sucesso" id="card-sucesso">
-        <span class="cat-header">😻🎉</span>
+        <img class="cat-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTYxMDFzeHJvNmIxbTZhdjQxdmZ1MWI3ZXJhZmtibmtodHBrcGNhZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif" alt="Gatinho Feliz">
         <h2>AMÉM!!!!!!! ❤️</h2>
         <p>🥰</p>
     </div>
 
     <script>
-        // Listas de gatinhos e corações
-        const gatos = ['🐱', '😸', '😻', '😽', '🐾', '🐈', '🐈‍⬛'];
         const coracoes = ['❤️', '💖', '💕', '💗', '💓'];
 
         // Criar corações flutuando no fundo
@@ -196,29 +199,30 @@
             }, 6000);
         }
 
-        // Criar gatinhos flutuando no fundo
-        function criarGato() {
-            const cat = document.createElement('div');
-            cat.classList.add('cat-bg');
-            cat.innerHTML = gatos[Math.floor(Math.random() * gatos.length)];
-            cat.style.left = Math.random() * 100 + 'vw';
-            cat.style.animationDuration = Math.random() * 4 + 5 + 's';
-            cat.style.fontSize = Math.random() * 18 + 22 + 'px';
+        // Criar fotos reais de gatinhos flutuando no fundo
+        function criarFotoGato() {
+            const cat = document.createElement('img');
+            cat.classList.add('cat-img-bg');
+            // Usando API de fotos de gatos reais com IDs aleatórios para variar
+            const randomId = Math.floor(Math.random() * 1000);
+            cat.src = `https://cataas.com/cat?${randomId}`;
+            
+            cat.style.left = Math.random() * 90 + 'vw';
+            cat.style.animationDuration = Math.random() * 4 + 6 + 's';
             document.body.appendChild(cat);
 
             setTimeout(() => {
                 cat.remove();
-            }, 9000);
+            }, 10000);
         }
 
-        setInterval(criarCoracao, 300);
-        setInterval(criarGato, 450);
+        setInterval(criarCoracao, 350);
+        setInterval(criarFotoGato, 1200);
 
         // Função do botão Não fugir
         function fugir() {
             const btnNao = document.getElementById('btn-nao');
             
-            // Calcula posições aleatórias na tela
             const x = Math.random() * (window.innerWidth - btnNao.offsetWidth - 40);
             const y = Math.random() * (window.innerHeight - btnNao.offsetHeight - 40);
 
@@ -232,10 +236,10 @@
             document.getElementById('card-pergunta').style.display = 'none';
             document.getElementById('card-sucesso').style.display = 'block';
 
-            // Explosão de corações e gatinhos
-            for (let i = 0; i < 40; i++) {
+            // Explosão de corações e fotos de gatinhos
+            for (let i = 0; i < 30; i++) {
                 setTimeout(criarCoracao, i * 40);
-                setTimeout(criarGato, i * 60);
+                setTimeout(criarFotoGato, i * 150);
             }
         }
     </script>
