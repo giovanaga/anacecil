@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ana Cecil ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animação dos Corações de Fundo */
+        .heart-bg {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            animation: float 6s infinite linear;
+            z-index: 1;
+            user-select: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Cartão Principal */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        #btn-sim {
+            background-color: #ff4b2b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 75, 43, 0.4);
+        }
+
+        #btn-sim:hover {
+            transform: scale(1.1);
+            background-color: #ff416c;
+        }
+
+        #btn-nao {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            right: 20px;
+            transition: all 0.15s ease-out;
+        }
+
+        /* Tela de Resposta */
+        .sucesso {
+            display: none;
+        }
+
+        .sucesso h2 {
+            color: #ff4b2b;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .sucesso p {
+            font-size: 1.3rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cartão com a Pergunta -->
+    <div class="card" id="card-pergunta">
+        <h1>Para Ana Cecil 💕</h1>
+        <p>Vamos voltar?</p>
+        <div class="btn-group">
+            <button id="btn-sim" onclick="aceitou()">Sim!</button>
+            <button id="btn-nao" onmouseover="fugir()" onclick="fugir()" ontouchstart="fugir()">Não</button>
+        </div>
+    </div>
+
+    <!-- Cartão de Sucesso ao clicar em Sim -->
+    <div class="card sucesso" id="card-sucesso">
+        <h2>Sabia que você ia aceitar! ❤️</h2>
+        <p>Prometo te fazer muito feliz! 🥰✨</p>
+    </div>
+
+    <script>
+        // Criar corações caindo no fundo
+        function criarCoracao() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+
+        setInterval(criarCoracao, 300);
+
+        // Função do botão Não fugir
+        function fugir() {
+            const btnNao = document.getElementById('btn-nao');
+            
+            // Calcula posições aleatórias na tela
+            const x = Math.random() * (window.innerWidth - btnNao.offsetWidth - 40);
+            const y = Math.random() * (window.innerHeight - btnNao.offsetHeight - 40);
+
+            btnNao.style.position = 'fixed';
+            btnNao.style.left = x + 'px';
+            btnNao.style.top = y + 'px';
+        }
+
+        // Função do botão Sim
+        function aceitou() {
+            document.getElementById('card-pergunta').style.display = 'none';
+            document.getElementById('card-sucesso').style.display = 'block';
+
+            // Explosão de corações
+            for (let i = 0; i < 50; i++) {
+                setTimeout(criarCoracao, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
