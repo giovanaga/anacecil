@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para Ana Cecil ❤️</title>
+    <!-- Fonte bonita estilo cinema -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -54,6 +56,7 @@
             width: 90%;
             z-index: 10;
             position: relative;
+            transition: opacity 1.5s ease-in-out;
         }
 
         /* Imagem Inicial Quadrada */
@@ -82,7 +85,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        /* Efeito de Giro Engraçado (Pirueta maluca com quique) */
+        /* Efeito de Giro Engraçado */
         .foto1-animada {
             animation: giroEngracado1 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
@@ -92,37 +95,17 @@
         }
 
         @keyframes giroEngracado1 {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.3) rotate(540deg);
-            }
-            70% {
-                transform: scale(0.9) rotate(700deg);
-            }
-            100% {
-                transform: scale(1) rotate(720deg) rotate(-6deg);
-                opacity: 1;
-            }
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(540deg); }
+            70% { transform: scale(0.9) rotate(700deg); }
+            100% { transform: scale(1) rotate(720deg) rotate(-6deg); opacity: 1; }
         }
 
         @keyframes giroEngracado2 {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.3) rotate(-540deg);
-            }
-            70% {
-                transform: scale(0.9) rotate(-700deg);
-            }
-            100% {
-                transform: scale(1) rotate(-720deg) rotate(6deg);
-                opacity: 1;
-            }
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.3) rotate(-540deg); }
+            70% { transform: scale(0.9) rotate(-700deg); }
+            100% { transform: scale(1) rotate(-720deg) rotate(6deg); opacity: 1; }
         }
 
         h1 {
@@ -189,9 +172,73 @@
             font-size: 2rem;
             color: #333;
         }
+
+        /* --- MODO CINEMA (TELA ESCURA) --- */
+        #cinema-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0d0d0d;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #cinema-overlay.ativo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Créditos Finais Subindo */
+        .creditos-texto {
+            position: absolute;
+            bottom: -100px;
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            color: #ffb6c1;
+            font-size: 3rem;
+            text-shadow: 0 0 15px rgba(255, 182, 193, 0.8), 0 0 30px rgba(255, 75, 43, 0.5);
+            width: 90%;
+            line-height: 1.4;
+        }
+
+        .creditos-texto.animar {
+            animation: subirCreditos 7s linear forwards;
+        }
+
+        @keyframes subirCreditos {
+            0% {
+                bottom: -100px;
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 45vh;
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Overlay de Cinema para Escurecer a Tela -->
+    <div id="cinema-overlay">
+        <div class="creditos-texto" id="texto-creditos">
+            Ana Cecil & Giovana<br>amor eterno ❤️
+        </div>
+    </div>
 
     <!-- Cartão com a Pergunta -->
     <div class="card" id="card-pergunta">
@@ -259,10 +306,20 @@
             document.getElementById('card-pergunta').style.display = 'none';
             document.getElementById('card-sucesso').style.display = 'block';
 
+            // Chuva inicial de comemoração
             for (let i = 0; i < 35; i++) {
                 setTimeout(criarCoracao, i * 30);
                 setTimeout(criarGatoEmoji, i * 50);
             }
+
+            // Espera 3.5 segundos para ver as fotos girando e depois escurece a tela para os créditos
+            setTimeout(() => {
+                const overlay = document.getElementById('cinema-overlay');
+                const creditos = document.getElementById('texto-creditos');
+                
+                overlay.classList.add('ativo');
+                creditos.classList.add('animar');
+            }, 3500);
         }
     </script>
 </body>
