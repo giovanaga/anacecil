@@ -44,13 +44,13 @@
             }
         }
 
-        /* Cartão Principal (Transparência ajustada) */
+        /* Cartão Principal */
         .card {
-            background: rgba(255, 255, 255, 0.45); /* Mais transparente */
+            background: rgba(255, 255, 255, 0.45);
             padding: 40px 30px;
             border-radius: 24px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(12px); /* Efeito de vidro desfocado */
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.6);
             text-align: center;
@@ -58,7 +58,7 @@
             width: 90%;
             z-index: 10;
             position: relative;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 0.8s ease-in-out;
         }
 
         /* Imagem Inicial Quadrada */
@@ -71,7 +71,7 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        /* Fotos do Sucesso: Quadradas e Giro Engraçado */
+        /* Fotos do Sucesso */
         .container-fotos-girando {
             display: flex;
             justify-content: center;
@@ -87,7 +87,6 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        /* Efeito de Giro Engraçado */
         .foto1-animada {
             animation: giroEngracado1 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
@@ -158,7 +157,8 @@
             color: white;
             position: absolute;
             right: 20px;
-            transition: all 0.15s ease-out;
+            z-index: 50;
+            transition: all 0.2s ease-out;
         }
 
         .sucesso {
@@ -176,14 +176,13 @@
             color: #333;
         }
 
-        /* --- MODO CINEMA COM IMAGEM4.JPG ESCURECIDA DE FUNDO --- */
+        /* --- MODO CINEMA COM IMAGEM4.JPG --- */
         #cinema-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Usando imagem4.jpg com filtro escuro */
             background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('imagem4.jpg');
             background-size: cover;
             background-position: center;
@@ -191,7 +190,7 @@
             z-index: 100;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 1.5s ease-in-out;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -203,7 +202,6 @@
             pointer-events: auto;
         }
 
-        /* Texto dos Créditos Finais */
         .creditos-texto {
             position: absolute;
             bottom: -150px;
@@ -219,7 +217,7 @@
         }
 
         .creditos-texto.animar {
-            animation: subirCreditos 8s linear forwards;
+            animation: subirCreditos 7s linear forwards;
             opacity: 1;
         }
 
@@ -294,14 +292,23 @@
         setInterval(criarCoracao, 300);
         setInterval(criarGatoEmoji, 500);
 
+        // Função melhorada: Move o botão "Não" pela tela sem sumir
         function fugir() {
             const btnNao = document.getElementById('btn-nao');
-            const x = Math.random() * (window.innerWidth - btnNao.offsetWidth - 40);
-            const y = Math.random() * (window.innerHeight - btnNao.offsetHeight - 40);
-
+            
+            // Garante que o botão use posição fixa na tela inteira
             btnNao.style.position = 'fixed';
-            btnNao.style.left = x + 'px';
-            btnNao.style.top = y + 'px';
+            
+            // Calcula posições aleatórias mantendo dentro da janela visível
+            const pad = 30; // Margem de segurança
+            const maxX = window.innerWidth - btnNao.offsetWidth - pad;
+            const maxY = window.innerHeight - btnNao.offsetHeight - pad;
+            
+            const randomX = Math.max(pad, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(pad, Math.floor(Math.random() * maxY));
+
+            btnNao.style.left = randomX + 'px';
+            btnNao.style.top = randomY + 'px';
         }
 
         function aceitou() {
@@ -313,17 +320,20 @@
                 setTimeout(criarGatoEmoji, i * 50);
             }
 
+            // Espera apenas 2 segundos para iniciar a transição
             setTimeout(() => {
                 document.getElementById('card-sucesso').style.opacity = '0';
-            }, 4000);
+            }, 2000);
 
+            // Abre a tela preta com a imagem4 em 2.5 segundos
             setTimeout(() => {
                 document.getElementById('cinema-overlay').classList.add('ativo');
-            }, 5000);
+            }, 2500);
 
+            // Inicia a subida dos créditos em 3 segundos
             setTimeout(() => {
                 document.getElementById('texto-creditos').classList.add('animar');
-            }, 6000);
+            }, 3000);
         }
     </script>
 </body>
