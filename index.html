@@ -22,6 +22,31 @@
             position: relative;
         }
 
+        /* Botão de Música Flutuante */
+        .music-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+
         /* Animação dos Corações de Fundo */
         .heart-bg {
             position: absolute;
@@ -161,7 +186,15 @@
         }
     </style>
 </head>
-<body>
+<body onclick="iniciarMusicaComClique()">
+
+    <!-- Player de Áudio usando o seu arquivo musica.mp3 -->
+    <audio id="musica" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Botão de controle de música flutuante -->
+    <button class="music-btn" id="btn-musica" onclick="toggleMusica(event)">🎵</button>
 
     <!-- Cartão com a Pergunta -->
     <div class="card" id="card-pergunta">
@@ -182,6 +215,35 @@
     </div>
 
     <script>
+        const musica = document.getElementById('musica');
+        const btnMusica = document.getElementById('btn-musica');
+        let musicaIniciada = false;
+
+        // Inicia a música com qualquer primeiro toque/clique na tela
+        function iniciarMusicaComClique() {
+            if (!musicaIniciada) {
+                musica.play().then(() => {
+                    btnMusica.innerHTML = '🎵';
+                    musicaIniciada = true;
+                }).catch(err => {
+                    console.log("Aguardando interação do usuário.");
+                });
+            }
+        }
+
+        // Alterna entre Play e Pause no botão 🎵
+        function toggleMusica(event) {
+            event.stopPropagation();
+            if (musica.paused) {
+                musica.play();
+                btnMusica.innerHTML = '🎵';
+                musicaIniciada = true;
+            } else {
+                musica.pause();
+                btnMusica.innerHTML = '🔇';
+            }
+        }
+
         const coracoes = ['❤️', '💖', '💕', '💗', '💓'];
 
         // Criar corações flutuando no fundo
@@ -203,7 +265,6 @@
         function criarFotoGato() {
             const cat = document.createElement('img');
             cat.classList.add('cat-img-bg');
-            // Usando API de fotos de gatos reais com IDs aleatórios para variar
             const randomId = Math.floor(Math.random() * 1000);
             cat.src = `https://cataas.com/cat?${randomId}`;
             
@@ -233,6 +294,7 @@
 
         // Função do botão Sim
         function aceitou() {
+            iniciarMusicaComClique();
             document.getElementById('card-pergunta').style.display = 'none';
             document.getElementById('card-sucesso').style.display = 'block';
 
